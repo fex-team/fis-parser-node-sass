@@ -20,5 +20,5 @@
   },
   "dependencies": {
     "node-sass": "3.3.2"
-  },
+  }
 }
