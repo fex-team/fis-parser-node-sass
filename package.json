@@ -1,0 +1,24 @@
+{
+  "name": "fis-parser-node-sass",
+  "description": "A parser plugin for fis to compile sass file.",
+  "version": "0.1.0",
+  "author": "FIS Team <fis@baidu.com>",
+  "homepage": "http://fis.baidu.com/",
+  "keywords": [
+    "fis",
+    "sass"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fouber/fis-parser-sass.git"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+    "node-sass": "3.3.2"
+  },
+}
