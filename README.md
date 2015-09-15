@@ -14,8 +14,8 @@ npm install fis-parser-node-sass -g
 
 ```javascript
 fis.config.merge('modules.parser', {
-    sass : 'sass',
-    scss: 'sass'
+    sass : 'node-sass',
+    scss: 'node-sass'
 });
 
 fis.config.merge('roadmap.ext', {
