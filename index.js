@@ -178,7 +178,6 @@ module.exports = function(content, file, conf){
     try {
         ret = sass.renderSync(opts);
     } catch (e) {
-        e = JSON.parse(e);
         fis.log.error(util.format("%s".red + " [`%s` %s:%s]".yellow, e.message, e.file, e.line, e.column));
     }
 
