@@ -113,7 +113,7 @@ module.exports = function(content, file, conf){
     }
 
     opts.includePaths = opts.include_paths || opts.includePaths || [];
-    file.dirname !== root && opts.includePaths.unshift(file.dirname);
+    // file.dirname !== root && opts.includePaths.unshift(file.dirname);
     opts.includePaths.push(root);
 
     opts.includePaths = opts.includePaths.map(function( dir ) {
@@ -137,6 +137,7 @@ module.exports = function(content, file, conf){
     var sources = [file.subpath];
 
     opts.importer = function(url, prev, done) {
+        prev = prev.replace(/^\w+\:/, ''); // windows 里面莫名加个盘符。
         var prevFile = find(prev, stacks.concat(includePaths));
 
         if (!prevFile) {
