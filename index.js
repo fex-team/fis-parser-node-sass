@@ -132,18 +132,29 @@ module.exports = function(content, file, conf){
         opts.indentedSyntax = true;
     }
 
-    var includePaths = opts.includePaths;
+    var stacks = [];
+    var includePaths = opts.includePaths.concat();
     var sources = [file.subpath];
-    opts.importer = function(url, prev, done) {
-        var localPaths = includePaths.concat();
-        var prevFile = find(prev, includePaths);
 
-        if (prevFile) {
-            localPaths.unshift(prevFile.dirname);
+    opts.importer = function(url, prev, done) {
+        var prevFile = find(prev, stacks.concat(includePaths));
+
+        if (!prevFile) {
+            throw new Error('Can\'t find `' + prev +'`');
         }
 
-        var target = find(url, localPaths);
+        var  dirname = prevFile.dirname;
 
+        // 如果已经在里面
+        if (~stacks.indexOf(dirname)) {
+            while (stacks[0] !== dirname) {
+                stacks.shift();
+            }
+        } else {
+            stacks.unshift(dirname);
+        }
+
+        var target = find(url, stacks.concat(includePaths));
         if (!target) {
             throw new Error('Can\'t find `' + url +'` in `' + prev + '`');
         }
