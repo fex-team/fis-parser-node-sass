@@ -141,19 +141,18 @@ module.exports = function(content, file, conf){
         var prevFile = find(prev, stacks.concat(includePaths));
 
         if (!prevFile) {
+            console.log(stacks);
             throw new Error('Can\'t find `' + prev +'`');
         }
 
         var  dirname = prevFile.dirname;
 
         // 如果已经在里面
-        if (~stacks.indexOf(dirname)) {
-            while (stacks[0] !== dirname) {
-                stacks.shift();
-            }
-        } else {
-            stacks.unshift(dirname);
+        var idx = stacks.indexOf(dirname);
+        if (~idx) {
+            stacks.splice(idx, 1);
         }
+        stacks.unshift(dirname);
 
         var target = find(url, stacks.concat(includePaths));
         if (!target) {
