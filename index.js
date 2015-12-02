@@ -33,10 +33,10 @@ function resolve_and_load(filename, dir) {
     var found = null;
 
     files.every(function(url) {
-        var info = fis.uri(url, dir);
+        var file = fis.util(dir, url);
 
-        if( info.file && info.file.isFile() ) {
-            found = info.file;
+        if( file && fis.util.isFile(file)  ) {
+            found = fis.file(file);
             return false;
         }
 
