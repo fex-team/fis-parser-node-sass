@@ -68,7 +68,8 @@ function fixSourcePath(content, file) {
     content = fis.compile.extCss(content);
 
     return content.replace(fis.compile.lang.reg, function(all, type, depth, value) {
-        if (parseFloat(fis.version, 10) < 3.0) {
+        // 如果是 fis2 的版本
+        if (!fis.match) {
             value = depth;
         }
 
@@ -102,7 +103,15 @@ module.exports = function(content, file, conf){
         return content;
     }
 
+    // sass 对 unicode 字符处理有 bug, 所以这里先用这种方法 解决下。
+    var backups = {};
+    var backupId = 0;
     content = fixImport(content);
+    content = content.replace(/('|")\\\w{4}\1/g, function(raw) {
+        var id = backupId++;
+        backups[id] = raw;
+        return "'__scss_backup_" + id + "'";
+    });
 
     root = root || fis.project.getProjectPath();
     var opts = fis.util.clone(conf);
@@ -141,7 +150,6 @@ module.exports = function(content, file, conf){
         var prevFile = find(prev, stacks.concat(includePaths));
 
         if (!prevFile) {
-            console.log(stacks);
             throw new Error('Can\'t find `' + prev +'`');
         }
 
@@ -161,6 +169,11 @@ module.exports = function(content, file, conf){
 
         var content = target.getContent();
         content = fixSourcePath(content, target);
+        content = content.replace(/('|")\\\w{4}\1/g, function(raw) {
+            var id = backupId++;
+            backups[id] = raw;
+            return "'__scss_backup_" + id + "'";
+        });
 
         if (file.cache) {
             file.cache.addDeps(target.realpath);
@@ -218,7 +231,12 @@ module.exports = function(content, file, conf){
         file.extras.derived.push(mapping);
     }
 
-    return ret.css.toString('utf8');
+    content = ret.css.toString('utf8');
+    content = content.replace(/('|")__scss_backup_(\d+)\1/g, function(_, quote, index) {
+        return backups[index];
+    });
+    
+    return content;
 };
 
 module.exports.defaultOptions = {
