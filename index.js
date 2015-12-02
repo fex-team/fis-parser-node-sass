@@ -75,7 +75,7 @@ function fixSourcePath(content, file) {
 
         var info = fis.uri(value, file.dirname);
 
-        if (info.file) {
+        if (info.file && info.file.subpath) {
             value = info.quote + info.file.subpath + info.query + info.quote;
         }
         
