@@ -99,7 +99,7 @@ function fixImport(content) {
 module.exports = function(content, file, conf){
 
     // 不处理空文件，处理空文件有人反馈报错。
-    if (!content || !content.trim()) {
+    if (!content || !content.trim() || file.basename[0] === '_') {
         return content;
     }
 
@@ -127,7 +127,7 @@ module.exports = function(content, file, conf){
 
     opts.includePaths = opts.includePaths.map(function( dir ) {
 
-        if (path.resolve( dir ) != path.normalize( dir )) {
+        if (path.resolve( dir ) != path.normalize( dir ) || fis.util.exists(path.join(root, dir))) {
             dir = path.join(root, dir);
         }
 

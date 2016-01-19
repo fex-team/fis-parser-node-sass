@@ -1,7 +1,7 @@
 {
   "name": "fis-parser-node-sass",
   "description": "A parser plugin for fis to compile sass file.",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "author": "FIS Team <fis@baidu.com>",
   "homepage": "http://fis.baidu.com/",
   "keywords": [
