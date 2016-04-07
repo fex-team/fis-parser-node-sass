@@ -23,7 +23,7 @@ fis.config.set('roadmap.ext.scss', 'css');
 插件配置
 
 ```javascript
-fis.config.set('settings.parser.sass', {
+fis.config.set('settings.parser.node-sass', {
     // 加入文件查找目录
     include_paths: []
 });
