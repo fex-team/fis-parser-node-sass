@@ -84,6 +84,7 @@ function fixSourcePath(content, file) {
 }
 
 function fixImport(content) {
+
     var reg = /((?:\/\/.*?\n)|(?:\/\*[\s\S]*?\*\/))|(?:@import\s([\s\S]*?)(?:\n|$)(?!\s+[^{@]*\n))/ig;
 
     return content.replace(reg, function(all, comments, value) {
@@ -106,7 +107,10 @@ module.exports = function(content, file, conf){
     // sass 对 unicode 字符处理有 bug, 所以这里先用这种方法 解决下。
     var backups = {};
     var backupId = 0;
-    content = fixImport(content);
+
+    //fixImport 造成 multiple import功能失效，先做注释用
+    //content = fixImport(content);
+
     content = content.replace(/('|")\\\w{4}\1/g, function(raw) {
         var id = backupId++;
         backups[id] = raw;
