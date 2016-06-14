@@ -78,24 +78,24 @@ function fixSourcePath(content, file) {
         if (info.file && info.file.subpath) {
             value = info.quote + info.file.subpath + info.query + info.quote;
         }
-        
+
         return value;
     });
 }
 
-function fixImport(content) {
+// function fixImport(content) {
 
-    var reg = /((?:\/\/.*?\n)|(?:\/\*[\s\S]*?\*\/))|(?:@import\s([\s\S]*?)(?:\n|$)(?!\s+[^{@]*\n))/ig;
+//     var reg = /((?:\/\/.*?\n)|(?:\/\*[\s\S]*?\*\/))|(?:@import\s([\s\S]*?)(?:\n|$)(?!\s+[^{@]*\n))/ig;
 
-    return content.replace(reg, function(all, comments, value) {
+//     return content.replace(reg, function(all, comments, value) {
 
-        if (!comments && value && !/;$/.test(value)) {
-            all += ';';
-        }
+//         if (!comments && value && value.trim() && !/;$/.test(value)) {
+//             all += ';';
+//         }
 
-        return all;
-    });
-}
+//         return all;
+//     });
+// }
 
 module.exports = function(content, file, conf){
 
@@ -108,8 +108,7 @@ module.exports = function(content, file, conf){
     var backups = {};
     var backupId = 0;
 
-    //fixImport 造成 multiple import功能失效，先做注释用
-    //content = fixImport(content);
+    // content = fixImport(content);
 
     content = content.replace(/('|")\\\w{4}\1/g, function(raw) {
         var id = backupId++;
@@ -214,8 +213,8 @@ module.exports = function(content, file, conf){
     //         file.cache.addDeps(dep);
     //     });
     // }
-    // 
-    
+    //
+
     if (mapping && ret.map) {
         var sourceMap = ret.map.toString('utf8');
 
@@ -239,7 +238,7 @@ module.exports = function(content, file, conf){
     content = content.replace(/('|")__scss_backup_(\d+)\1/g, function(_, quote, index) {
         return backups[index];
     });
-    
+
     return content;
 };
 
