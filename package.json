@@ -19,6 +19,6 @@
   "scripts": {
   },
   "dependencies": {
-    "node-sass": "3.7.0"
+    "node-sass": "3.4.2"
   }
 }
