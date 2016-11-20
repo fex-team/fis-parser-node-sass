@@ -11,7 +11,8 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fouber/fis-parser-node-sass.git"
+    "url": "git@github.com:fex-team/fis-parser-node-sass.git",
+    "web": "https://github.com/fex-team/fis-parser-node-sass.git"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -19,6 +20,6 @@
   "scripts": {
   },
   "dependencies": {
-    "node-sass": "3.9.3"
+    "node-sass": "~3.13.0"
   }
 }
