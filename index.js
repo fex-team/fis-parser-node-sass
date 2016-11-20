@@ -153,7 +153,7 @@ module.exports = function(content, file, conf){
         var prevFile = find(prev, stacks.concat(includePaths));
 
         if (!prevFile) {
-            throw new Error('Can\'t find `' + prev +'`');
+            return new Error('Can\'t find `' + prev +'`');
         }
 
         var  dirname = prevFile.dirname;
@@ -167,7 +167,7 @@ module.exports = function(content, file, conf){
 
         var target = find(url, stacks.concat(includePaths));
         if (!target) {
-            throw new Error('Can\'t find `' + url +'` in `' + prev + '`');
+            return new Error('Can\'t find `' + url +'` in `' + prev + '`');
         }
 
         var content = target.getContent();
