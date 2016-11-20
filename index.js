@@ -35,7 +35,7 @@ function resolve_and_load(filename, dir) {
   files.every(function(url) {
     var file = fis.util(dir, url);
 
-    if( file && fis.util.isFile(file)  ) {
+    if (file && fis.util.isFile(file)) {
       found = fis.file(file);
       return false;
     }
@@ -97,10 +97,10 @@ function fixSourcePath(content, file) {
 //     });
 // }
 
-module.exports = function(content, file, conf){
+module.exports = function(content, file, conf) {
 
   // 不处理空文件，处理空文件有人反馈报错。
-  if (!content || !content.trim() || file.basename[0] === '_') {
+  if (!content || !content.trim() || file.basename[ 0 ] === '_') {
     return content;
   }
 
@@ -112,7 +112,7 @@ module.exports = function(content, file, conf){
 
   content = content.replace(/('|")\\\w{4}\1/g, function(raw) {
     var id = backupId++;
-    backups[id] = raw;
+    backups[ id ] = raw;
     return "'__scss_backup_" + id + "'";
   });
 
@@ -128,9 +128,9 @@ module.exports = function(content, file, conf){
   // file.dirname !== root && opts.includePaths.unshift(file.dirname);
   opts.includePaths.push(root);
 
-  opts.includePaths = opts.includePaths.map(function( dir ) {
+  opts.includePaths = opts.includePaths.map(function(dir) {
 
-    if (path.resolve( dir ) != path.normalize( dir ) || fis.util.exists(path.join(root, dir))) {
+    if (path.resolve(dir) != path.normalize(dir) || fis.util.exists(path.join(root, dir))) {
       dir = path.join(root, dir);
     }
 
@@ -146,17 +146,17 @@ module.exports = function(content, file, conf){
 
   var stacks = [];
   var includePaths = opts.includePaths.concat();
-  var sources = [file.subpath];
+  var sources = [ file.subpath ];
 
   opts.importer = function(url, prev, done) {
     prev = prev.replace(/^\w+\:/, ''); // windows 里面莫名加个盘符。
     var prevFile = find(prev, stacks.concat(includePaths));
 
     if (!prevFile) {
-      return new Error('Can\'t find `' + prev +'`');
+      return new Error('Can\'t find `' + prev + '`');
     }
 
-    var  dirname = prevFile.dirname;
+    var dirname = prevFile.dirname;
 
     // 如果已经在里面
     var idx = stacks.indexOf(dirname);
@@ -167,14 +167,14 @@ module.exports = function(content, file, conf){
 
     var target = find(url, stacks.concat(includePaths));
     if (!target) {
-      return new Error('Can\'t find `' + url +'` in `' + prev + '`');
+      return new Error('Can\'t find `' + url + '` in `' + prev + '`');
     }
 
     var content = target.getContent();
     content = fixSourcePath(content, target);
     content = content.replace(/('|")\\\w{4}\1/g, function(raw) {
       var id = backupId++;
-      backups[id] = raw;
+      backups[ id ] = raw;
       return "'__scss_backup_" + id + "'";
     });
 
@@ -182,7 +182,7 @@ module.exports = function(content, file, conf){
       file.cache.addDeps(target.realpath);
     }
     //解决include_path 内import导致subpath为空报错问题
-    if(!target.subpath){
+    if (!target.subpath) {
       target.subpath = path.relative(root, target.realpath);
     }
     ~sources.indexOf(target.subpath) || sources.push(target.subpath);
@@ -197,8 +197,8 @@ module.exports = function(content, file, conf){
     opts.sourceMapContents = true;
     var mapping = fis.file.wrap(file.dirname + '/' + file.filename + file.rExt + '.map');
 
-    opts.sourceMap = mapping.getUrl(fis.compile.settings.hash, fis.compile.settings.domain);
-    file.release && (opts.outFile = file.getUrl(fis.compile.settings.hash, fis.compile.settings.domain));
+    opts.sourceMap = mapping.getUrl(fis.compile.settings.hash, fis.compile.settings.domain);
+    file.release && (opts.outFile = file.getUrl(fis.compile.settings.hash, fis.compile.settings.domain));
   }
 
   var ret;
@@ -236,7 +236,7 @@ module.exports = function(content, file, conf){
 
   content = ret.css.toString('utf8');
   content = content.replace(/('|")__scss_backup_(\d+)\1/g, function(_, quote, index) {
-    return backups[index];
+    return backups[ index ];
   });
 
   return content;
